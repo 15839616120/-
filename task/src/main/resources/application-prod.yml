@@ -1,0 +1,52 @@
+# ===================================================================
+#  SPRING BOOT PROPERTIES
+# ===================================================================
+
+
+# ----------------------------------------
+# WEB PROPERTIES
+# ----------------------------------------
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /
+  port: 8011
+
+
+# ----------------------------------------
+# CORE PROPERTIES
+# ----------------------------------------
+spring:
+  application:
+    name: juyou-staffcenter-task
+    # HTTP encoding (HttpEncodingProperties)
+  http:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+
+
+# ----------------------------------------
+# EUREKA CONSUMER PROPERTIES
+# ----------------------------------------
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8501/eureka/
+
+
+# ----------------------------------------
+# QUARTZ PROPERTIES
+# ----------------------------------------
+juyou:
+  quartz:
+    multi[0]:
+      cronExpression: 0 0/3 * * * ? *
+      jobName: staffGroupyncSData
+      jobClassName: com.juyoufuli.task.job.StaffGroupJob
+      description: The task is testing
+      jobGroup: staff

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juyoufuli.service.mapper.StaffAccountMapper">
+  <resultMap id="BaseResultMap" type="com.juyoufuli.entity.StaffAccount">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="staff_id" jdbcType="INTEGER" property="staffId" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="account_type" jdbcType="TINYINT" property="accountType" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `staff_id`, `account`, `account_type`, `gmt_create`, `gmt_modified`, `state`
+  </sql>
+
+  <!--查询-->
+  <select id="getAccountByStaffId" resultType="java.lang.String">
+    select account from staff_account where staff_id = #{staffId}
+  </select>
+
+  <select id="selectByStaffId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from staff_account where staff_id = #{staffId}
+  </select>
+
+  <insert id="insert" parameterType="com.juyoufuli.entity.StaffAccount">
+    insert into staff_account (`staff_id`, `account`, `account_type`, 
+      `gmt_create`, `gmt_modified`, `state`
+      )
+    values (#{staffId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{accountType,jdbcType=TINYINT}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{state,jdbcType=TINYINT}
+      )
+  </insert>
+
+  <update id="update" parameterType="com.juyoufuli.entity.StaffAccount">
+    update staff_account
+    <set>
+      <if test="staffId != null">
+        `staff_id` = #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        `account` = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null">
+        `account_type` = #{accountType,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null">
+        `gmt_create` = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        `gmt_modified` = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=TINYINT},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>

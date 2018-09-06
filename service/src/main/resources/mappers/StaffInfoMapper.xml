@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juyoufuli.service.mapper.StaffInfoMapper">
+  <resultMap id="BaseResultMap" type="com.juyoufuli.entity.StaffInfo">
+    <id column="staff_id" jdbcType="INTEGER" property="staffId" />
+    <result column="password" jdbcType="CHAR" property="password" />
+    <result column="pwd_salt" jdbcType="CHAR" property="pwdSalt" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="ID_num" jdbcType="CHAR" property="idNum" />
+    <result column="mobile_phone" jdbcType="CHAR" property="mobilePhone" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="duty" jdbcType="VARCHAR" property="duty" />
+    <result column="creator" jdbcType="INTEGER" property="creator" />
+    <result column="modifier" jdbcType="INTEGER" property="modifier" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="biz_state" jdbcType="TINYINT" property="bizState" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `staff_id`, `password`, `pwd_salt`, `user_name`, `gender`, `avatar`, `birthday`, 
+    `ID_num`, `mobile_phone`, `telephone`, `email`, `duty`, `creator`, `modifier`, `gmt_create`, 
+    `gmt_modified`, `biz_state`, `state`
+  </sql>
+
+  <!--查询-->
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from staff_info where staff_id in
+    <foreach collection="staffIds" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="selectById">
+    select
+    <include refid="Base_Column_List"/>
+    from staff_info where staff_id = #{staffId}
+  </select>
+
+  <select id="selectLimit" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from staff_info
+    limit #{start},#{end}
+  </select>
+
+  <!--查询总数-->
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(1) from staff_info
+    <where>
+      <if test="staffId != null">
+        and staff_id = #{staffId}
+      </if>
+    </where>
+  </select>
+
+  <insert id="insert" parameterType="com.juyoufuli.entity.StaffInfo">
+    insert into staff_info (`staff_id`, `password`, `pwd_salt`, 
+      `user_name`, `gender`, `avatar`, 
+      `birthday`, `ID_num`, `mobile_phone`, 
+      `telephone`, `email`, `duty`, 
+      `creator`, `modifier`, `gmt_create`, 
+      `gmt_modified`, `biz_state`, `state`
+      )
+    values (#{staffId,jdbcType=INTEGER}, #{password,jdbcType=CHAR}, #{pwdSalt,jdbcType=CHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{avatar,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=DATE}, #{idNum,jdbcType=CHAR}, #{mobilePhone,jdbcType=CHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=INTEGER}, #{modifier,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP},
+      #{gmtModified,jdbcType=TIMESTAMP}, #{bizState,jdbcType=TINYINT}, #{state,jdbcType=TINYINT}
+      )
+  </insert>
+
+  <update id="update" parameterType="com.juyoufuli.entity.StaffInfo">
+    update staff_info
+    <set>
+      <if test="password != null">
+        `password` = #{password,jdbcType=CHAR},
+      </if>
+      <if test="userName != null">
+        `user_name` = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        `gender` = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="avatar != null">
+        `avatar` = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        `birthday` = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="idNum != null">
+        `ID_num` = #{idNum,jdbcType=CHAR},
+      </if>
+      <if test="mobilePhone != null">
+        `mobile_phone` = #{mobilePhone,jdbcType=CHAR},
+      </if>
+      <if test="telephone != null">
+        `telephone` = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        `email` = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null">
+        `duty` = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null">
+        `modifier` = #{modifier,jdbcType=INTEGER},
+      </if>
+      <if test="gmtModified != null">
+        `gmt_modified` = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bizState != null">
+        `biz_state` = #{bizState,jdbcType=TINYINT},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=TINYINT},
+      </if>
+    </set>
+    where `staff_id` = #{staffId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

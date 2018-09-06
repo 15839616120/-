@@ -1,0 +1,17 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.juyoufuli.cloud.properties.QuartzProperties",
+      "name": "juyou.quartz",
+      "type": "com.juyoufuli.cloud.properties.QuartzProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.juyoufuli.cloud.properties.QuartzProperties",
+      "name": "juyou.quartz.multi",
+      "type": "java.util.List<java.util.Map<java.lang.String,java.lang.String>>"
+    }
+  ]
+}

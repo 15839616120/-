@@ -1,0 +1,138 @@
+# ===================================================================
+#  SPRING BOOT PROPERTIES
+#  spring.profiles.active = test
+# ===================================================================
+
+
+# ----------------------------------------
+# WEB PROPERTIES
+# ----------------------------------------
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /
+  port: 8110
+
+
+# ----------------------------------------
+# CORE PROPERTIES
+# ----------------------------------------
+spring:
+  application:
+    name: staffcenter-service-provider
+    # HTTP encoding (HttpEncodingProperties)
+  http:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+    # DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.10.202:3306/juyou?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: root
+      password: juyoufuli
+      initialSize: 1
+      minIdle: 3
+      maxActive: 20
+      maxWait: 60000  # 配置获取连接等待超时的时间
+      timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      minEvictableIdleTimeMillis: 300000  # 配置一个连接在池中最小生存的时间，单位是毫秒
+      validationQuery: SELECT 1  #用来检测连接是否有效的sql,要求是一个查询语句
+      testWhileIdle: true  #申请连接的时候检测,建议配置为true,不影响性能,并且保证安全性
+      testOnBorrow: false  #申请连接时执行validationQuery检测连接是否有效,做了这个配置会降低性能
+      testOnReturn: false  #归还连接时执行validationQuery检测连接是否有效,做了这个配置会降低性能
+      poolPreparedStatements: true # 打开PSCache，并且指定每个连接上PSCache的大小
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat,wall,log4j  # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      connection-properties:  druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000  # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+     # DRUID MONITOR
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: juyou
+        login-password: admin
+
+
+# ----------------------------------------
+# REDIS PROPERTIES
+# ----------------------------------------
+  redis:
+    host: 192.168.10.203
+    port: 6379
+    database: 0
+    timeout: 3000ms # 连接超时时间（毫秒）
+    password: juyoutest
+    jedis:
+      pool:
+        min-idle: 10  # 连接池中的最小空闲连接
+        max-idle: 100  # 连接池中的最大空闲连接
+        max-active: 20  #连接池最大连接数（使用负值表示没有限制）
+        max-wait: 3000ms  # 连接池最大阻塞等待时间（使用负值表示没有限制）
+
+
+# ----------------------------------------
+# EUREKA PROVIDER PROPERTIES
+# ----------------------------------------
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8501/eureka/
+
+
+# ----------------------------------------
+# MYBATIS PROPERTIES
+# ----------------------------------------
+mybatis:
+  config-location: classpath:/mybatis-config.xml
+  mapper-locations:  classpath:/mappers/*.xml
+  type-aliases-package: com.juyoufuli.entity
+
+
+# ----------------------------------------
+# PAGEHELPER PROPERTIES
+# ----------------------------------------
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+
+
+# ----------------------------------------
+# LOG PROPERTIES
+# ----------------------------------------
+logging:
+  config: classpath:logback-spring.xml
+  path:path: /var/logs/juyou/#parent.artifactId#/#project.artifactId#
+
+
+#------------------------------------------
+#redis有效时间  单位：秒
+#------------------------------------------
+staffCenterRedis:
+  utime: 100000
+  vtime: 120000
+
+#------------------------------------------
+# 员工
+#------------------------------------------
+staffinfo:
+  safecodeTime: 300
+  syncSize: 100
+staffgroup:
+  syncSize: 100
+# ----------------------------------------
+# WeChat propertys
+# ----------------------------------------
+wechat:
+  properties:
+    appid: ww18197e24be94aebe
+    appsecret: YAVB3yh_N9LbYr6xQyG1yBK_xFmyvx0S-VTJDtQ9r9U

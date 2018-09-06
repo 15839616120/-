@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juyoufuli.service.mapper.StaffGroupMapper">
+  <resultMap id="BaseResultMap" type="com.juyoufuli.entity.StaffGroup">
+    <id column="group_id" jdbcType="BIGINT" property="groupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `group_id`, `group_name`, `parent_id`, `sort`, `creator`, `modifier`, `gmt_create`, 
+    `gmt_modified`, `state`
+  </sql>
+  <!--<select resultType="com.juyoufuli.bean.GroupNode" id="getChildren">-->
+  	<!--SELECT -->
+  		<!--group_id id,group_name name-->
+  	<!--FROM-->
+  		<!--staff_group-->
+  	<!--WHERE -->
+  		<!--parent_id = #{parentId}-->
+  <!--</select>-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from staff_group
+    where `group_id` = #{groupId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from staff_group
+    where `group_id` = #{groupId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.juyoufuli.entity.StaffGroup"  >
+    insert into staff_group (`group_id`, `group_name`, `parent_id`, 
+      `sort`, `creator`, `modifier`, 
+      `gmt_create`, `gmt_modified`, `state`
+      )
+    values (#{groupId,jdbcType=BIGINT}, #{groupName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
+      #{sort,jdbcType=INTEGER}, #{creator,jdbcType=BIGINT}, #{modifier,jdbcType=BIGINT}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{state,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.juyoufuli.entity.StaffGroup">
+  	<selectKey keyProperty="groupId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID() as group_id
+    </selectKey>
+    insert into staff_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupId != null">
+        `group_id`,
+      </if>
+      <if test="groupName != null">
+        `group_name`,
+      </if>
+      <if test="parentId != null">
+        `parent_id`,
+      </if>
+      <if test="sort != null">
+        `sort`,
+      </if>
+      <if test="creator != null">
+        `creator`,
+      </if>
+      <if test="modifier != null">
+        `modifier`,
+      </if>
+      <if test="gmtCreate != null">
+        `gmt_create`,
+      </if>
+      <if test="gmtModified != null">
+        `gmt_modified`,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupId != null">
+        #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="map">
+    update staff_group
+    <set>
+      <if test="groupName != null">
+        `group_name` = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        `parent_id` = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null">
+        `sort` = #{sort,jdbcType=INTEGER},
+      </if>
+       
+      <if test="modifier != null">
+        `modifier` = #{modifier,jdbcType=BIGINT},
+      </if>
+       
+      <if test="gmtModified != null">
+        `gmt_modified` = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=TINYINT}
+      </if>
+    </set>
+    where `group_id` = #{groupId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.juyoufuli.entity.StaffGroup">
+    update staff_group
+    set `group_name` = #{groupName,jdbcType=VARCHAR},
+      `parent_id` = #{parentId,jdbcType=BIGINT},
+      `sort` = #{sort,jdbcType=INTEGER},
+      `creator` = #{creator,jdbcType=BIGINT},
+      `modifier` = #{modifier,jdbcType=BIGINT},
+      `gmt_create` = #{gmtCreate,jdbcType=TIMESTAMP},
+      `gmt_modified` = #{gmtModified,jdbcType=TIMESTAMP},
+      `state` = #{state,jdbcType=TINYINT}
+    where `group_id` = #{groupId,jdbcType=BIGINT}
+  </update>
+
+  <select id="sortStaffList"  resultMap="BaseResultMap" >
+  	select * from staff_group order by sort
+  </select>
+
+  <!--查询-->
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from staff_group where group_id in
+    <foreach collection="groupIds" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+    <!--查询总数-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(1) from staff_group
+    </select>
+    <!--查询总数-->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from staff_group
+    </select>
+    <!--分页查-->
+    <select id="selectLimit" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from staff_group
+        limit #{start},#{end}
+    </select>
+    <select id="selectMaxId" resultType="java.lang.Long">
+      SELECT MAX(group_id) from staff_group
+    </select>
+
+</mapper>
